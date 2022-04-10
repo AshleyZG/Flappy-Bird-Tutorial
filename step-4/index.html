@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Flappy Bird</title>
+  </head>
+  <body>
+    <div id="game">
+      <h1>Flappy Bird</h1>
+      <p id="instructions">
+        Click/tap on the game to make the bird fly.<br />
+        Avoid poles and boundaries. Enjoy!
+      </p>
+      <div id="game-area">
+        <div id="bird"></div>
+        <div class="pole" id="pole-1"></div>
+        <div class="pole" id="pole-2"></div>
+      </div>
+      <div id="game-info">
+        <button id="restart-btn">Restart</button>
+      </div>
+    </div>
+    <script src="collision.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
