@@ -1,0 +1,60 @@
+#game {
+    text-align: center;
+  }
+  
+  #game-area {
+    margin: auto;
+    position: relative;
+    width: 400px;
+    height: 300px;
+    border: 2px solid green;
+    background-color: deepskyblue;
+    overflow: hidden;
+  }
+  
+  #bird {
+    position: absolute;
+    background: url("https://usercontent.one/wp/compucademy.net/wp-content/uploads/2020/11/robbybird.png?media=1647780690");
+    height: 27px;
+    width: 42px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: 20%;
+    left: 15%;
+  }
+  
+  .pole {
+    position: absolute;
+    height: 100px;
+    width: 30px;
+    background-color: green;
+    right: 0px;
+  }
+  
+  #pole-1 {
+    top: 0;
+  }
+  
+  #pole-2 {
+    bottom: 0;
+  }
+  
+  #game-info {
+    margin: 5px;
+    font-size: 18px;
+  }
+  
+  #game-info p {
+    display: inline;
+    padding: 20px;
+  }
+  
+  #restart-btn {
+    padding: 5px 10px;
+    background-color: green;
+    color: white;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
