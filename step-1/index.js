@@ -41,13 +41,21 @@ function updatePoles() {
     });
 }
 
-function reset() {
-    poles.forEach((pole) => {
-        pole.style.right = 0;
-    });
-    if (animationReq) {
-        cancelAnimationFrame(animationReq);
+function update(){
+    let birdTop = parseFloat(window.getComputedStyle(bird).getPropertyValue("top"));
+    if (birdTop < containerHeight - bird.clientHeight) {
+            bird.style.top = birdTop + 2 + "px";
     }
 }
+
+function reset() {
+    bird.style.top = "20%";
+    poles.forEach((pole) => {
+      pole.style.right = 0;
+    });
+    if (animationReq) {
+      cancelAnimationFrame(animationReq);
+    }
+  }
 
 restartBtn.addEventListener('click', startGame);
