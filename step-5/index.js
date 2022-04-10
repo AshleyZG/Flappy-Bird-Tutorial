@@ -13,11 +13,6 @@ let scoreUpdated;
 const speedSpan = document.querySelector('#speed');
 let speed;
 
-speed = 2;
-score = 0;
-speedSpan.textContent = "";
-scoreSpan.textContent = score;
-scoreUpdated = false;
 
 // make some variables accesible to functions.
 // const speed = 2;
@@ -107,6 +102,13 @@ function gameLoop() {
 }
 
 function reset() {
+
+  speed = 2;
+  score = 0;
+  speedSpan.textContent = "";
+  scoreSpan.textContent = score;
+  scoreUpdated = false;
+
   flapping = false;
   playing = true;
   bird.style.top = "20%";
