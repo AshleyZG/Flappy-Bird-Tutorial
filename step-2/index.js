@@ -11,6 +11,23 @@ const restartBtn = document.querySelector("#restart-btn");
 const speed = 2;
 let animationReq;
 
+//Add a new variable to capture whether the bird is flapping or not
+let flapping;
+let playing;
+
+// Start flapping with mousedown
+gameArea.addEventListener("mousedown", function (e) {
+    if (playing) {
+        flapping = true;
+    }
+});
+// stop flapping with mousedown
+gameArea.addEventListener("mouseup", function (e) {
+    if (playing) {
+        flapping = false;
+    }
+});
+
 function startGame() {
   reset();
   gameLoop();
@@ -43,8 +60,10 @@ function update() {
   updatePoles();
 
   let birdTop = parseFloat(window.getComputedStyle(bird).getPropertyValue("top"));
-  if (birdTop < containerHeight - bird.clientHeight) {
-          bird.style.top = birdTop + 2 + "px";
+  if (flapping) {
+      bird.style.top = birdTop + -2 + "px";
+  } else if (birdTop < containerHeight - bird.clientHeight) {
+      bird.style.top = birdTop + 2 + "px";
   }
 }
 
@@ -53,8 +72,9 @@ function gameLoop() {
   animationReq = requestAnimationFrame(gameLoop);
 }
 
-
 function reset() {
+  flapping = false;
+  playing = true;
   bird.style.top = "20%";
   poles.forEach((pole) => {
     pole.style.right = 0;
@@ -63,5 +83,6 @@ function reset() {
     cancelAnimationFrame(animationReq);
   }
 }
+
 
 restartBtn.addEventListener("click", startGame);
