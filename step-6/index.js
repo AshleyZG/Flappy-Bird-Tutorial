@@ -14,13 +14,11 @@ let scoreUpdated;
 const speedSpan = document.querySelector('#speed');
 let speed;
 
-console.log(game);
 
 // make some variables accesible to functions.
 // const speed = 2;
 let animationReq;
 
-let polesCurrentPos;
 
 //Add a new variable to capture whether the bird is flapping or not
 let flapping;
@@ -46,7 +44,7 @@ function startGame() {
 
 function updatePoles() {
   // Move poles
-  polesCurrentPos = parseFloat(
+  let polesCurrentPos = parseFloat(
     window.getComputedStyle(poles[0]).getPropertyValue("right")
   );
 
@@ -61,12 +59,14 @@ function updatePoles() {
     // Move poles back to the right-hand side of game area.
     polesCurrentPos = 0; // This is based on the "right" property.
 
-
     // Update speed
     speed += 0.25;
     speedSpan.textContent = parseInt(speed);
     scoreUpdated = false;
 
+    // Update score
+    score += 1;
+    scoreSpan.textContent = score;
   }
 
   poles.forEach((pole) => {
@@ -83,16 +83,6 @@ function update() {
   } else if (birdTop < containerHeight - bird.clientHeight) {
       bird.style.top = birdTop + 2 + "px";
   }
-  
-  // Update score
-  if (polesCurrentPos > containerWidth * 0.85) { // or whatever bird pos is.
-    if (!scoreUpdated) {
-        score += 1;
-        scoreUpdated = true;
-    }
-    scoreSpan.textContent = score;
-  } 
-  // Check for collisions
   if (collision(bird, poles[0]) || collision(bird, poles[1]) || birdTop <= 0 || birdTop > containerHeight - bird.clientHeight) {
     gameOver();
   }
