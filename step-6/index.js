@@ -3,6 +3,7 @@
 // Save DOM objects to variables
 const poles = document.querySelectorAll(".pole");
 const gameArea = document.querySelector("#game-area");
+const bird = document.querySelector('#bird');
 const containerWidth = gameArea.clientWidth;
 const containerHeight = gameArea.clientHeight;
 const restartBtn = document.querySelector("#restart-btn");
@@ -13,6 +14,7 @@ let scoreUpdated;
 const speedSpan = document.querySelector('#speed');
 let speed;
 
+console.log(game);
 
 // make some variables accesible to functions.
 // const speed = 2;

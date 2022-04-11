@@ -3,6 +3,7 @@
 // Save DOM objects to variables
 const poles = document.querySelectorAll(".pole");
 const gameArea = document.querySelector("#game-area");
+const bird = document.querySelector('#bird');
 const containerWidth = gameArea.clientWidth;
 const containerHeight = gameArea.clientHeight;
 const restartBtn = document.querySelector("#restart-btn");
