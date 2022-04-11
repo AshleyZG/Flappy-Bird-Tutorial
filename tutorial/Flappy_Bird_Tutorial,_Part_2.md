@@ -13,18 +13,17 @@ if (birdTop < containerHeight - bird.clientHeight) {
         bird.style.top = birdTop + 2 + "px";
 }
 ```
-
 let’s also update `reset()` to look like this. The bird’s style will come in handy later on
 
 ```javascript
 function reset() {
-    bird.style.top = "20%";
-    poles.forEach((pole) => {
+  bird.style.top = "20%";
+  poles.forEach((pole) => {
     pole.style.right = 0;
-    });
-    if (animationReq) {
+  });
+  if (animationReq) {
     cancelAnimationFrame(animationReq);
-    }
+  }
 }
 ```
 `birdTop` is the screen position of the top of the bird’s body. The `if()` statement is saying, as long as the bird is higher than the very bottom of the screen, it should fall.
@@ -68,23 +67,21 @@ if (flapping) {
     bird.style.top = birdTop + 2 + "px";
 }
 ```
-
 Finally, in reset(), let’s reset these two variables. The playing variable will come in handy later on, when we are figuring out how to implement “game over” and “reset”
 
 ```javascript
 function reset() {
-    flapping = false;
-    playing = true;
-    bird.style.top = "20%";
-    poles.forEach((pole) => {
+  flapping = false;
+  playing = true;
+  bird.style.top = "20%";
+  poles.forEach((pole) => {
     pole.style.right = 0;
-    });
-    if (animationReq) {
+  });
+  if (animationReq) {
     cancelAnimationFrame(animationReq);
-    }
+  }
 }
 ```
-
 Now try running the game again. Our bird should fly when we click! Nice!
 
 [Webpage Demo](https://gezhangrp.com/Flappy-Bird-Tutorial/step-2/) | [Github Repository](https://github.com/AshleyZG/Flappy-Bird-Tutorial/tree/master/step-2) 
@@ -100,7 +97,7 @@ Let’s start by adding the final piece of this, and then work backwards. In the
 ```javascript
 // Check for collisions
 if (collision(bird, poles[0]) || collision(bird, poles[1]) || birdTop <= 0 || birdTop > containerHeight - bird.clientHeight) {
-    gameOver();
+  gameOver();
 }
 ```
 This is saying: Game Over if
@@ -116,10 +113,9 @@ Let’s add a placeholder for `gameOver()` to **index.js**
 
 ```javascript
 function gameOver() {
-    console.log("game over");
+  console.log("game over");
 }
 ```
-
 We’ll see what triggers this function, but it won’t actually cause the game to end. We’ll update the body of it later.
 
 We use the `collision(``)` function to determine whether the bird hits the poles by checking whether the bird’s boundary and the pole’s boundary are overlapping. Remember, this is a collision() function, so if it returns true, we’re saying, “Yes, something is colliding”. 
@@ -143,7 +139,6 @@ function gameOver() {
     restartBtn.addEventListener('click', startGame);
 }
 ```
-
 Now, we’re changing the value of `playing`. However, we don’t have that variable doing anything. Let’s give it more functionality. Let’s update `gameLoop()` so that the game only progressing when playing is set to true
 
 ```javascript
@@ -154,7 +149,6 @@ function gameLoop() {
     }
 }
 ```
-
 Alright, test it out again. When the bird hits a pole, the top of the area, or the bottom of the area, the game should end. If you click Restart, you should be able to restart.
 
 [Webpage Demo](https://gezhangrp.com/Flappy-Bird-Tutorial/step-4/) | [Github Repository](https://github.com/AshleyZG/Flappy-Bird-Tutorial/tree/master/step-4)
@@ -169,12 +163,11 @@ Let’s add a “Score” element to the screen, and also implement an increasin
 
 ```html
 <div id="game-info">
-    <p>Score:<span id="score">3</span></p>
-    <button id="restart-btn">Restart</button>
-    <p>Speed:<span id="speed">2</span></p>
+  <p>Score:<span id="score">3</span></p>
+  <button id="restart-btn">Restart</button>
+  <p>Speed:<span id="speed">2</span></p>
 </div>
 ```
-
 At the top of index.js, let’s add some values
 
 ```javascript
@@ -184,7 +177,6 @@ let scoreUpdated;
 const speedSpan = document.querySelector('#speed');
 let speed;
 ```
-
 We are changing speed from a const to a let, because now it will be changing! We will assign it a value lower in the file.
 
 Let’s add some more functionality to **index.js**. Let’s add score and speed info to `reset()`
@@ -196,7 +188,6 @@ speedSpan.textContent = "";
 scoreSpan.textContent = score;
 scoreUpdated = false;
 ```
-
 Now, let’s add some pieces to `updatePoles()`. Within the `if(polesCurrentPos > containerWidth) {}`, add these lines
 
 ```javascript
@@ -205,7 +196,6 @@ speed += 0.25;
 speedSpan.textContent = parseInt(speed);
 scoreUpdated = false;
 ```
-
 These lines will run every time time the poles leave the screen, so, because of addition to speed, the game will get progressively faster.
 
 We’re manipulating the speed variable, but where does it actually affect the scene? Look in `updatePoles()`, where it says `pole.style.right = ${polesCurrentPos + speed}px`; Because this function runs every frame, the speed variable determines how far the poles move every frame. As speed increases, the faster the poles move across the screen.
@@ -220,49 +210,43 @@ You should see “0” for score now, and “2” for speed. However, once 4 pol
 
 ## Step 6: Updating Score
 
-Cool! Finally, let’s add a working scoreboard. This will just require one piece added to the `update()` function. Here is the new version with the “Update Score" section added
+Cool! Finally, let’s add a working scoreboard. This will just require one piece added to the `updatePoles()` function. Here is the new version with the “Update Score" section added
 
 ```javascript
-function update() {
-    updatePoles();
-    let birdTop = parseFloat(window.getComputedStyle(bird).getPropertyValue("top"));
-    if (flapping) {
-        bird.style.top = birdTop + -2 + "px";
-    } else if (birdTop < containerHeight - bird.clientHeight) {
-        bird.style.top = birdTop + 2 + "px";
-    }
-    
+function updatePoles() {
+  // Move poles
+  let polesCurrentPos = parseFloat(
+    window.getComputedStyle(poles[0]).getPropertyValue("right")
+  );
+  //  Check whether the poles went putside of game area.
+  if (polesCurrentPos > containerWidth) {
+    // Generate new poles.
+    let newHeight = parseInt(Math.random() * 100);
+    // Change the poles' height
+    poles[0].style.height = `${100 + newHeight}px`;
+    poles[1].style.height = `${100 - newHeight}px`;
+    // Move poles back to the right-hand side of game area.
+    polesCurrentPos = 0; // This is based on the "right" property.
+    // Update speed
+    speed += 0.25;
+    speedSpan.textContent = parseInt(speed);
+    scoreUpdated = false;
     // Update score
-    if (polesCurrentPos > containerWidth * 0.85) { // or whatever bird pos is.
-    if (!scoreUpdated) {
-        score += 1;
-        scoreUpdated = true;
-    }
+    score += 1;
     scoreSpan.textContent = score;
-}
-    // Check for collisions
-    if (collision(bird, poles[0]) || collision(bird, poles[1]) || birdTop <= 0 || birdTop > containerHeight - bird.clientHeight) {
-        gameOver();
-    }
+  }
+  poles.forEach((pole) => {
+    pole.style.right = `${polesCurrentPos + speed}px`;
+  });
 }
 ```
+All this is saying is: Once the poles are across the screen, increase the score by 1. 
 
-All this is saying is: Once the poles are 85% across the screen, increase the score by 1. We use 85% because that is the horizontal position of the bird. If the bird were in the middle of the screen, we could use 50%.
-
-Let’s test it out. We get an error: `polesCurrentPos` is unknown. If we check our code, we see `poleCurrentPos` is currently being defined inside `updatePoles()`, which limits its scope. We need to move the initialization outside of the function, to the top of the file.
-
-```javascript
-let polesCurrentPos;
-```
-
-You can remove the `let` from the initialization within `updatePoles()`.
-
-Okay, let’s try again.
+Let’s test it out. 
 
 Now, the game is running, and we see the score update every time our bird passes through the poles. Nice! Great job.
 
 [Webpage Demo](https://gezhangrp.com/Flappy-Bird-Tutorial/step-6/) | [Github Repository](https://github.com/AshleyZG/Flappy-Bird-Tutorial/tree/master/step-6)
 
 ![](https://paper-attachments.dropbox.com/s_A49239764BBBAFE775CE15C3203E48CCB0F33C24DFDB8160547E018C696442FF_1649615656614_chrome-capture-2022-3-10+6.gif)
-
 
